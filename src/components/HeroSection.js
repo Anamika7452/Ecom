@@ -84,11 +84,7 @@ const HeroSection = ({ title, message, ButtonData, navigateTo }) => {
           </div>
           <div className="hero-section--image">
             <figure>
-              <img
-                src="images/hero.png"
-                alt="Cover Photo"
-                className="img-style"
-              />
+              <img src="images/hero.png" alt="" className="img-style" />
             </figure>
           </div>
         </div>
