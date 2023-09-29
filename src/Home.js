@@ -16,7 +16,7 @@ const Home = () => {
     of products, carefully curated to cater to your every need and 
     desire. Click on SHOP NOW to start exploring"
         ButtonData="SHOP NOW"
-        navigateTo="/"
+        navigateTo="/products"
       />
       <Services />
       <Trusted />
