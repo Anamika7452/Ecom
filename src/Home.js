@@ -2,6 +2,7 @@ import React from "react";
 import HeroSection from "./components/HeroSection";
 import Services from "./components/Services";
 import Trusted from "./components/Trusted";
+import FeatureProduct from "./components/FeatureProducts";
 
 const Home = () => {
   return (
@@ -18,6 +19,7 @@ const Home = () => {
         ButtonData="SHOP NOW"
         navigateTo="/products"
       />
+      <FeatureProduct />
       <Services />
       <Trusted />
     </>
