@@ -1,14 +1,18 @@
-import { useProductContext } from "../context/productContext";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import Product from "./Product";
+import FormatPrice from "../Helpers/FormatPrice";
+import { Button } from "../styles/Button";
 
-const FeatureProduct = () => {
+const ListView = ({ products }) => {
   const Wrapper = styled.section`
     padding: 9rem 0;
-    background-color: ${({ theme }) => theme.colors.bg};
 
     .container {
       max-width: 120rem;
+    }
+
+    .grid {
+      gap: 3.2rem;
     }
 
     figure {
@@ -42,51 +46,30 @@ const FeatureProduct = () => {
         height: 20rem;
         transition: all 0.2s linear;
       }
-
-      .caption {
-        position: absolute;
-        top: 15%;
-        right: 10%;
-        text-transform: uppercase;
-        background-color: ${({ theme }) => theme.colors.bg};
-        color: ${({ theme }) => theme.colors.helper};
-        padding: 0.8rem 2rem;
-        font-size: 1.2rem;
-        border-radius: 2rem;
-      }
     }
 
     .card {
-      background-color: #fff;
-      border-radius: 1rem;
+      border: 0.1rem solid rgb(170 170 170 / 40%);
 
       .card-data {
         padding: 0 2rem;
       }
 
-      .card-data--flex {
-        margin: 2rem 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
       h3 {
-        color: ${({ theme }) => theme.colors.text};
+        margin: 2rem 0;
+        font-weight: 300;
+        font-size: 2.4rem;
         text-transform: capitalize;
       }
 
-      .card-data--price {
-        color: ${({ theme }) => theme.colors.helper};
-      }
-
       .btn {
-        margin: 2rem auto;
+        margin: 2rem 0;
         background-color: rgb(0 0 0 / 0%);
         border: 0.1rem solid rgb(98 84 243);
         display: flex;
         justify-content: center;
         align-items: center;
+        color: rgb(98 84 243);
 
         &:hover {
           background-color: rgb(98 84 243);
@@ -100,28 +83,40 @@ const FeatureProduct = () => {
           font-size: 1.4rem;
         }
       }
+
+      .btn-main .btn:hover {
+        color: #fff;
+      }
     }
   `;
-
-  const { isLoading, featureProducts } = useProductContext();
-
-  if (isLoading) {
-    return <div> ......Loading </div>;
-  }
-
   return (
     <Wrapper className="section">
-      <div className="container">
-        <div className="intro-data">Check Now !!!</div>
-        <div className="common-heading">Our Feature Products</div>
-        <div className="grid grid-three--column">
-          {featureProducts.map((fp) => {
-            return <Product key={fp.id} {...fp} />;
-          })}
-        </div>
+      <div className="container grid">
+        {products.map((curElem) => {
+          const { id, name, image, price, description } = curElem;
+          return (
+            <div className="card grid grid-two--column">
+              <figure>
+                <img src={image} alt={name} />
+              </figure>
+
+              <div className="card-data">
+                <h3>{name}</h3>
+                <p>
+                  <FormatPrice price={price} />
+                </p>
+                <p>{description.slice(0, 90)}...</p>
+
+                <NavLink to={`/single-product/${id}`} className="btn-main">
+                  <Button className="btn">Read More</Button>
+                </NavLink>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </Wrapper>
   );
 };
 
-export default FeatureProduct;
+export default ListView;
