@@ -110,7 +110,6 @@ const SingleProduct = () => {
     company,
     price,
     description,
-    category,
     stock,
     stars,
     reviews,

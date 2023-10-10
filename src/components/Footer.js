@@ -122,17 +122,29 @@ const Footer = () => {
               <h3>Follow Us</h3>
               <div className="footer-social--icons">
                 <div>
-                  <a href="https://www.discord.com">
+                  <a
+                    href="https://www.discord.com"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
                     <FaDiscord className="icons" />
                   </a>
                 </div>
                 <div>
-                  <a href="https://www.instagram.com">
+                  <a
+                    href="https://www.instagram.com"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
                     <FaInstagram className="icons" />
                   </a>
                 </div>
                 <div>
-                  <a href="https://www.youtube.com">
+                  <a
+                    href="https://www.youtube.com"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
                     <FaYoutube className="icons" />
                   </a>
                 </div>

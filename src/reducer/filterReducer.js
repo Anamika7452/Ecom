@@ -79,7 +79,11 @@ const filterReducer = (state, action) => {
 
       if (text) {
         tempFilterProduct = tempFilterProduct.filter((curElem) => {
+<<<<<<< HEAD
           return curElem.name.toLowerCase().includes(text.toLowerCase());
+=======
+          return curElem.name.toLowerCase().includes(text);
+>>>>>>> 87b9876 ([Cart page] made cart page)
         });
       }
 
@@ -103,7 +107,11 @@ const filterReducer = (state, action) => {
 
       if (price === 0) {
         tempFilterProduct = tempFilterProduct.filter(
+<<<<<<< HEAD
           (curElem) => curElem.price == price
+=======
+          (curElem) => curElem.price === price
+>>>>>>> 87b9876 ([Cart page] made cart page)
         );
       } else {
         tempFilterProduct = tempFilterProduct.filter(
