@@ -56,7 +56,7 @@ const Contact = () => {
           >
             <input
               type="text"
-              placeholder="username"
+              placeholder="Username"
               name="username"
               required
               autoComplete="off"
