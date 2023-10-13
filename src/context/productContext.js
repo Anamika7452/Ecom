@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import axios from "axios";
-import reducer from "../reducer/productreducer";
+import reducer from "../reducer/productReducer";
 
 const AppContext = createContext();
 
@@ -51,7 +51,6 @@ const AppProvider = ({ children }) => {
   );
 };
 
-// custom hooks
 const useProductContext = () => {
   return useContext(AppContext);
 };

@@ -81,9 +81,6 @@ li {
   list-style: none;
 }
 
-
-${"" /* resuable code section  */}
-
 .container {
   max-width: 120rem;
   margin: 0 auto;
@@ -141,8 +138,7 @@ input, textarea{
     color: ${({ theme }) => theme.colors.black};
     padding: 1.6rem 2.4rem;
     border: 1px solid ${({ theme }) => theme.colors.border};
-    text-transform: uppercase;
-   box-shadow: ${({ theme }) => theme.colors.shadowSupport};
+    box-shadow: ${({ theme }) => theme.colors.shadowSupport};
 }
     input[type="submit"]{
     max-width: 16rem;
