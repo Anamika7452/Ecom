@@ -4,7 +4,7 @@ import reducer from "../reducer/productReducer";
 
 const AppContext = createContext();
 
-const API = "https://api.pujakaitem.com/api/products";
+const productsApi = process.env.REACT_APP_PRODUCTS_API;
 
 const initialState = {
   isLoading: false,
@@ -41,7 +41,7 @@ const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getProducts(API);
+    getProducts(productsApi);
   }, []);
 
   return (
