@@ -1,10 +1,8 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
-import axios from "axios";
 import reducer from "../reducer/productReducer";
+import { productArr } from "../Helpers/ApiData";
 
 const AppContext = createContext();
-
-const productsApi = process.env.REACT_APP_PRODUCTS_API;
 
 const initialState = {
   isLoading: false,
@@ -18,22 +16,20 @@ const initialState = {
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const getProducts = async (url) => {
+  const getProducts = async (data) => {
     dispatch({ type: "SET_LOADING" });
     try {
-      const res = await axios.get(url);
-      const products = await res.data;
+      const products = data;
       dispatch({ type: "SET_API_DATA", payload: products });
     } catch (error) {
       dispatch({ type: "API_ERROR" });
     }
   };
 
-  const getSingleProduct = async (url) => {
+  const getSingleProduct = async (id) => {
     dispatch({ type: "SET_SINGLE_LOADING" });
     try {
-      const res = await axios.get(url);
-      const singleProduct = await res.data;
+      const singleProduct = productArr.find((product) => product.id === id);
       dispatch({ type: "SET_SINGLE_PRODUCT", payload: singleProduct });
     } catch (error) {
       dispatch({ type: "SET_SINGLE_ERROR" });
@@ -41,7 +37,7 @@ const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getProducts(productsApi);
+    getProducts(productArr);
   }, []);
 
   return (
