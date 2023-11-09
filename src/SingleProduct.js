@@ -11,8 +11,6 @@ import { TbTruckDelivery, TbReplace } from "react-icons/tb";
 import Star from "./components/Star";
 import AddToCart from "./components/AddToCart";
 
-const productsApi = process.env.REACT_APP_PRODUCTS_API;
-
 const SingleProduct = () => {
   const Wrapper = styled.section`
     .container {
@@ -117,8 +115,8 @@ const SingleProduct = () => {
   } = singleProduct;
 
   useEffect(() => {
-    getSingleProduct(`${productsApi}?id=${id}`);
-  }, []);
+    getSingleProduct(id);
+  }, [singleProduct]);
 
   if (isSingleLoading) {
     return <div className="page_loading">Loading.....</div>;

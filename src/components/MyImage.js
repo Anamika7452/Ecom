@@ -52,7 +52,7 @@ const MyImage = ({ imgs = [{ url: "" }] }) => {
     }
   `;
 
-  const [mainImage, setMainImage] = useState(imgs[0]);
+  const [mainImage, setMainImage] = useState({ url: imgs[0] });
 
   return (
     <Wrapper>
@@ -61,11 +61,11 @@ const MyImage = ({ imgs = [{ url: "" }] }) => {
           return (
             <figure>
               <img
-                src={i.url}
-                alt={i.filename}
+                src={i}
+                alt="product-image"
                 className="box-image--style"
                 key={index}
-                onClick={() => setMainImage(i)}
+                onClick={() => setMainImage({ url: i })}
               />
             </figure>
           );
