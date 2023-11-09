@@ -5,8 +5,10 @@ import CartAmountToggle from "./CartAmountToggle";
 import { NavLink } from "react-router-dom";
 import { Button } from "../styles/Button";
 import { useCartContext } from "../context/cartContext";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const AddToCart = ({ product }) => {
+  const { isAuthenticated } = useAuth0();
   const Wrapper = styled.section`
     .colors p {
       display: flex;
@@ -36,6 +38,11 @@ const AddToCart = ({ product }) => {
     .checkStyle {
       font-size: 1rem;
       color: #fff;
+    }
+
+    .disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .amount-toggle {
@@ -106,7 +113,17 @@ const AddToCart = ({ product }) => {
           addToCart(id, color, amount, product);
         }}
       >
-        <Button className="btn">Add To Cart</Button>
+        {!isAuthenticated ? (
+          <Button
+            title="You need to be Logged in to add item in cart"
+            className="btn disabled"
+            disabled
+          >
+            Add To Cart
+          </Button>
+        ) : (
+          <Button className="btn">Add To Cart</Button>
+        )}
       </NavLink>
     </Wrapper>
   );

@@ -4,11 +4,14 @@ import styled from "styled-components";
 import { FiShoppingCart } from "react-icons/fi";
 import { CgMenu, CgClose } from "react-icons/cg";
 import { useCartContext } from "../context/cartContext";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Button } from "../styles/Button";
 
 const Nav = () => {
   const [menuIcon, setMenuIcon] = useState();
 
   const { total_item } = useCartContext();
+  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
 
   const Nav = styled.nav`
     .navbar-lists {
@@ -83,6 +86,37 @@ const Nav = () => {
       padding: 0.8rem 1.4rem;
     }
 
+    .user-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-pic {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ccc;
+    }
+
+    .initials {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ccc;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    p {
+      margin-left: 10px;
+    }
+
     @media (max-width: ${({ theme }) => theme.media.mobile}) {
       .mobile-navbar--btn {
         display: inline-block;
@@ -112,11 +146,10 @@ const Nav = () => {
       .navbar-lists {
         width: 100vw;
         height: 100vh;
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         background-color: #fff;
-
         display: flex;
         justify-content: center;
         align-items: center;
@@ -125,7 +158,6 @@ const Nav = () => {
         visibility: hidden;
         opacity: 0;
         transform: translateX(100%);
-        /* transform-origin: top; */
         transition: all 3s linear;
       }
 
@@ -204,16 +236,54 @@ const Nav = () => {
               CONTACT
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/cart"
-              onClick={() => setMenuIcon(false)}
-              className="navbar-link cart-trolley--link"
-            >
-              <FiShoppingCart className="cart-trolley"></FiShoppingCart>
-              <span className="cart-total--item">{total_item}</span>
-            </NavLink>
-          </li>
+
+          {isAuthenticated && (
+            <div className="user-profile">
+              {user.picture ? (
+                <img
+                  className="profile-pic"
+                  src={user.picture}
+                  alt={user.name}
+                />
+              ) : (
+                <div className="initials">
+                  {user.name.split(" ").map((namePart, index) => (
+                    <span key={index}>{namePart.charAt(0)}</span>
+                  ))}
+                </div>
+              )}
+              <p>{user.name}</p>
+            </div>
+          )}
+
+          {isAuthenticated ? (
+            <li>
+              <Button
+                onClick={() =>
+                  logout({ logoutParams: { returnTo: window.location.origin } })
+                }
+              >
+                Log Out
+              </Button>
+            </li>
+          ) : (
+            <li>
+              <Button onClick={() => loginWithRedirect()}>Log In</Button>
+            </li>
+          )}
+
+          {isAuthenticated && (
+            <li>
+              <NavLink
+                to="/cart"
+                onClick={() => setMenuIcon(false)}
+                className="navbar-link cart-trolley--link"
+              >
+                <FiShoppingCart className="cart-trolley"></FiShoppingCart>
+                <span className="cart-total--item">{total_item}</span>
+              </NavLink>
+            </li>
+          )}
         </ul>
         <div className="mobile-navbar--btn">
           <CgMenu

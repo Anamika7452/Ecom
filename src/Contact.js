@@ -1,6 +1,11 @@
 import styled from "styled-components";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Contact = () => {
+  const { isAuthenticated, user } = useAuth0();
+
+  const formSpreeApi = process.env.REACT_APP_FORMSPREE_API_URL;
+
   const Wrapper = styled.section`
     padding: 9rem 0 5rem 0;
     text-align: center;
@@ -17,8 +22,12 @@ const Contact = () => {
           flex-direction: column;
           gap: 3rem;
 
+          .disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+          }
+
           input[type="submit"] {
-            cursor: pointer;
             transition: all 0.2s;
 
             &:hover {
@@ -49,17 +58,14 @@ const Contact = () => {
       ></iframe>
       <div className="container">
         <div className="contact-form">
-          <form
-            action="https://formspree.io/f/xleylpkl"
-            method="POST"
-            className="contact-inputs"
-          >
+          <form action={formSpreeApi} method="POST" className="contact-inputs">
             <input
               type="text"
               placeholder="Username"
               name="username"
               required
               autoComplete="off"
+              value={isAuthenticated ? user.name : ""}
             />
 
             <input
@@ -68,6 +74,7 @@ const Contact = () => {
               placeholder="Email"
               autoComplete="off"
               required
+              value={isAuthenticated ? user.email : ""}
             />
 
             <textarea
@@ -79,7 +86,17 @@ const Contact = () => {
               placeholder="Enter you message"
             ></textarea>
 
-            <input type="submit" value="send" />
+            {!isAuthenticated ? (
+              <input
+                type="submit"
+                className="disabled"
+                disabled
+                value="send"
+                title="You need to be Logged in to send feedback"
+              />
+            ) : (
+              <input type="submit" value="send" />
+            )}
           </form>
         </div>
       </div>
