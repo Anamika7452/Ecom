@@ -174,8 +174,7 @@ const SingleProduct = () => {
                   {stock > 0
                     ? ` In Stock, Quantity: ${stock}`
                     : " Not Available"}
-                </span>
-              </p>
+                </span>     
               <p>
                 Brand :<span> {company} </span>
               </p>
