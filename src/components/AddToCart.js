@@ -16,8 +16,8 @@ const AddToCart = ({ product }) => {
       align-items: center;
     }
     .btnStyle {
-      width: 2rem;
-      height: 2rem;
+      width: 2.5rem;
+      height: 2.5rem;
       background-color: #000;
       border-radius: 50%;
       margin-left: 1rem;
@@ -25,7 +25,19 @@ const AddToCart = ({ product }) => {
       outline: none;
       opacity: 0.5;
       cursor: pointer;
+    }
 
+    .btnStyleforSize {
+      width: 3rem;
+      height: 3rem;
+      background-color: #000;
+      border-radius: 50%;
+      margin-left: 1.5rem;
+      border: none;
+      outline: none;
+      opacity: 0.5;
+      cursor: pointer;
+    }
       &:hover {
         opacity: 1;
       }
@@ -68,9 +80,10 @@ const AddToCart = ({ product }) => {
 
   const { addToCart } = useCartContext();
 
-  const { id, colors, stock } = product;
+  const { id, colors, sizes, stock } = product;
 
   const [color, setColor] = useState(colors[0]);
+  const [size, setSize] = useState(sizes[0]);
   const [amount, setAmount] = useState(1);
 
   const setDecrease = () => {
@@ -101,6 +114,24 @@ const AddToCart = ({ product }) => {
         </p>
       </div>
 
+      <div className="sizes" style={{ marginTop: "10px" }}>
+        <p>
+          Sizes:
+          {sizes.map((cursize, index) => {
+            return (
+              <button
+                key={index}
+                style={{ backgroundColor: "black", color: "white" }}
+                className={size === cursize ? "btnStyleforSize active" : "btnStyleforSize"}
+                onClick={() => setSize(cursize)}
+              >
+                {cursize}
+              </button>
+            );
+          })}
+        </p>
+      </div>
+
       <CartAmountToggle
         amount={amount}
         setDecrease={setDecrease}
@@ -110,7 +141,7 @@ const AddToCart = ({ product }) => {
       <NavLink
         to="/cart"
         onClick={() => {
-          addToCart(id, color, amount, product);
+          addToCart(id, color, size, amount, product);
         }}
       >
         {!isAuthenticated ? (
