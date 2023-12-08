@@ -1,6 +1,5 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useState } from "react";
-// import axios from "axios";
 import styled from "styled-components";
 import { Button } from "../styles/Button";
 import OnlineInvoiceMessage from "./OnlineInvoiceMessage";
@@ -37,7 +36,7 @@ const Label = styled.label`
   display: block;
   margin-bottom: 5rem;
   font-weight: bold;
-  font-size 2rem;
+  font-size: 2rem;
   color: #333;
 `;
 
@@ -54,34 +53,39 @@ const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
 
-  if (!stripe || !elements) {
-    return;
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!stripe || !elements) {
+      console.error("Stripe or Elements not available");
+      return;
+    }
+
+    const cardElement = elements.getElement(CardElement);
+    if (!cardElement) {
+      console.error("Card Element not found");
+      return;
+    }
+
     const { error } = await stripe.createPaymentMethod({
       type: "card",
-      card: elements.getElement(CardElement),
+      card: cardElement,
     });
 
     if (!error) {
-      try {
-        // const { id } = paymentMethod;
-        // const response = await axios.post("http://localhost:3000/payment", {
-        //   amount: 1,
-        //   id,
-        // });
-
-        // if (response.data.success) {
-        console.log("payment successful");
-        setSuccess(true);
-        // }
-      } catch (error) {
-        console.log("error", error.message);
-      }
+      console.log("Payment successful");
+      setSuccess(true);
     } else {
-      console.log("error", error.message);
+      console.error("Error:", error.message);
+      try {
+        const response = await fetch(
+          "https://merchant-ui-api.stripe.com/elements/wallet-config",
+          { mode: "no-cors" }
+        );
+        console.log("Error details:", response);
+      } catch (fetchError) {
+        console.log("Error fetching details:", fetchError);
+      }
     }
   };
 
@@ -104,7 +108,7 @@ const PaymentForm = () => {
           </form>
         </PaymentFrom>
       ) : (
-        <OnlineInvoiceMessage></OnlineInvoiceMessage>
+        <OnlineInvoiceMessage />
       )}
     </>
   );
