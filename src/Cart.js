@@ -146,6 +146,11 @@ const Wrapper = styled.section`
 
         border-radius: 50%;
       }
+
+      .size-style {
+        font-size: 2rem;
+        margin-left: 6px;
+      }
     }
   }
 
