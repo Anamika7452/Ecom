@@ -16,8 +16,8 @@ const AddToCart = ({ product }) => {
       align-items: center;
     }
     .btnStyle {
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 2rem;
+      height: 2rem;
       background-color: #000;
       border-radius: 50%;
       margin-left: 1rem;
@@ -28,8 +28,7 @@ const AddToCart = ({ product }) => {
     }
 
     .btnStyleforSize {
-      width: 3rem;
-      height: 3rem;
+      padding: 1rem;
       background-color: #000;
       border-radius: 50%;
       margin-left: 1.5rem;
@@ -41,9 +40,7 @@ const AddToCart = ({ product }) => {
       &:hover {
         opacity: 1;
       }
-    }
-
-    .active {
+    } .active {
       opacity: 1;
     }
 
@@ -121,8 +118,15 @@ const AddToCart = ({ product }) => {
             return (
               <button
                 key={index}
-                style={{ backgroundColor: "black", color: "white" }}
-                className={size === cursize ? "btnStyleforSize active" : "btnStyleforSize"}
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                }}
+                className={
+                  size === cursize
+                    ? "btnStyleforSize active"
+                    : "btnStyleforSize"
+                }
                 onClick={() => setSize(cursize)}
               >
                 {cursize}
