@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Button } from "../styles/Button";
 import OnlineInvoiceMessage from "./OnlineInvoiceMessage";
+import { useCartContext } from "../context/cartContext";
 
 const CARD_OPTIONS = {
   iconStyle: "solid",
@@ -53,6 +54,8 @@ const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
 
+  const { cart } = useCartContext();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -89,6 +92,10 @@ const PaymentForm = () => {
     }
   };
 
+  const updateCart = (cart) => {
+    const updatedCartItem = cart?.map((e) => (e = { ...e, isOrdered: true }));
+    localStorage.setItem("clickItCart", JSON.stringify(updatedCartItem));
+  };
   return (
     <>
       {!success ? (
@@ -100,6 +107,7 @@ const PaymentForm = () => {
               <Button
                 type="submit"
                 disabled={!stripe}
+                onClick={updateCart(cart)}
                 style={{ marginTop: "5rem" }}
               >
                 PAY NOW
