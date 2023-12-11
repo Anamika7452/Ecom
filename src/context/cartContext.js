@@ -21,7 +21,10 @@ const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const addToCart = (id, color, amount, product) => {
-    dispatch({ type: "ADD_TO_CART", payload: { id, color, amount, product } });
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: { id, color, amount, product, isOrdered: false },
+    });
   };
 
   const clearCart = () => {
@@ -35,7 +38,15 @@ const CartProvider = ({ children }) => {
   useEffect(() => {
     dispatch({ type: "CART_TOTAL_ITEM" });
     dispatch({ type: "CART_TOTAL_PRICE" });
-    localStorage.setItem("clickItCart", JSON.stringify(state.cart));
+
+    console.log(state.cart, "cart");
+    const updatedCartItem = state.cart?.map((e) => {
+      const isOrdered = e?.isOrdered ? e.isOrdered : false;
+      const updatedId =
+        isOrdered === true ? e.id.split("#")[0] + e.color + e.isOrdered : e.id;
+      return { ...e, id: updatedId, isOrdered: isOrdered };
+    });
+    localStorage.setItem("clickItCart", JSON.stringify(updatedCartItem));
   }, [state.cart]);
 
   const setDecrement = (id) => {

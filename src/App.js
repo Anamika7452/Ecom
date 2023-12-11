@@ -64,6 +64,10 @@ const App = () => {
             element={<CodInvoiceMessage></CodInvoiceMessage>}
           />
           <Route path="/make-payment" element={<StripeContainer />} />
+          <Route
+            path="/my-order"
+            element={<OnlineInvoiceMessage></OnlineInvoiceMessage>}
+          />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />

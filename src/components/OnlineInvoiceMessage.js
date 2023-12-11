@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "../styles/Button";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef } from "react";
@@ -202,9 +201,15 @@ const StyledDownloadButton = styled(FaFileDownload)`
 const OnlineInvoiceMessage = () => {
   const navigate = useNavigate();
   const pdfRef = useRef();
-  const { clearCart } = useCartContext();
+  const { cart, shipping_fee } = useCartContext();
 
-  const { cart, total_price, shipping_fee } = useCartContext();
+  const orderedCart = cart.filter((e) => e?.isOrdered);
+
+  const total_price = orderedCart.reduce((initialVal, curElem) => {
+    let { price, amount } = curElem;
+    initialVal = initialVal + price * amount;
+    return initialVal;
+  }, 0);
 
   const cgstRate = 18;
   const sgstRate = 9;
@@ -236,7 +241,6 @@ const OnlineInvoiceMessage = () => {
       );
       pdf.save("invoice.pdf");
     });
-    clearCart();
     navigate("/");
   };
   const currentDate = new Date();
@@ -272,7 +276,7 @@ const OnlineInvoiceMessage = () => {
           </div>
           <hr />
           <div className="cart-item">
-            {cart.map((curElem) => {
+            {orderedCart.map((curElem) => {
               return (
                 <div className="cart_heading grid grid-five--column">
                   <div className="cart-image--name">

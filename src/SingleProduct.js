@@ -169,9 +169,12 @@ const SingleProduct = () => {
 
             <div className="product-data--info">
               <p>
-                Available:
-                <span> {stock > 0 ? "In Stock," : "Not Available,"}</span>
-                <span> Quantity: {stock}</span>
+                Availability:
+                <span>
+                  {stock > 0
+                    ? ` In Stock, Quantity: ${stock}`
+                    : " Not Available"}
+                </span>
               </p>
               <p>
                 Brand :<span> {company} </span>

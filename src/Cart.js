@@ -6,15 +6,22 @@ import { Button } from "./styles/Button";
 import FormatPrice from "./Helpers/FormatPrice";
 
 const Cart = () => {
-  const { cart, clearCart, total_price, shipping_fee } = useCartContext();
+  const { cart, clearCart, shipping_fee } = useCartContext();
+  const notOrderedCart = cart.filter((e) => !e?.isOrdered);
 
   const cgstRate = 18;
   const sgstRate = 9;
 
+  const total_price = notOrderedCart.reduce((initialVal, curElem) => {
+    let { price, amount } = curElem;
+    initialVal = initialVal + price * amount;
+    return initialVal;
+  }, 0);
+
   const cgst = (total_price * (cgstRate / 100)).toFixed(2);
   const sgst = (total_price * (sgstRate / 100)).toFixed(2);
 
-  if (cart.length === 0) {
+  if (notOrderedCart.length === 0) {
     return (
       <EmptyDiv>
         <h3> No Item in Cart </h3>
@@ -39,7 +46,7 @@ const Cart = () => {
           <hr />
 
           <div className="cart-item">
-            {cart.map((curElem) => {
+            {notOrderedCart.map((curElem) => {
               return <CartItem key={curElem.id} {...curElem} />;
             })}
           </div>

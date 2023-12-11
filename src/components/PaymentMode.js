@@ -40,10 +40,14 @@ const RadioInput = styled.input`
   margin-right: 5px;
 `;
 
-const PaymentMode = () => {
-  const [selectedOption, setSelectedOption] = useState("online");
-  const { clearCart } = useCartContext();
+const updateCart = (cart) => {
+  const updatedCartItem = cart?.map((e) => (e = { ...e, isOrdered: true }));
+  localStorage.setItem("clickItCart", JSON.stringify(updatedCartItem));
+};
 
+const PaymentMode = () => {
+  const { cart } = useCartContext();
+  const [selectedOption, setSelectedOption] = useState("online");
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -81,7 +85,7 @@ const PaymentMode = () => {
         </Button>
       )}
       {selectedOption === "cash" && (
-        <Button onClick={clearCart}>
+        <Button onClick={updateCart(cart)}>
           <NavLink to="/cod-delivery-message">Continue</NavLink>
         </Button>
       )}
