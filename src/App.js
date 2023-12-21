@@ -11,6 +11,10 @@ import { GlobalStyle } from "./GlobalStyle";
 import { ThemeProvider } from "styled-components";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import StripeContainer from "./components/StripeContainer";
+import PaymentMode from "./components/PaymentMode";
+import OnlineInvoiceMessage from "./components/OnlineInvoiceMessage";
+import CodInvoiceMessage from "./components/CodInvoiceMessage";
 
 const App = () => {
   const theme = {
@@ -50,6 +54,20 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/single-product/:id" element={<SingleProduct />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/payment-mode" element={<PaymentMode></PaymentMode>} />
+          <Route
+            path="/delivery-message"
+            element={<OnlineInvoiceMessage></OnlineInvoiceMessage>}
+          />
+          <Route
+            path="/cod-delivery-message"
+            element={<CodInvoiceMessage></CodInvoiceMessage>}
+          />
+          <Route path="/make-payment" element={<StripeContainer />} />
+          <Route
+            path="/my-order"
+            element={<OnlineInvoiceMessage></OnlineInvoiceMessage>}
+          />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />
